@@ -125,7 +125,7 @@ class DHSlideControl: UIControl {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    print(scrollView.frame)
+//    print(scrollView.frame)
     labelHostView.widthAnchor.constraintEqualToConstant(CGFloat(titles.count)*scrollView.frame.size.width).active = true
     labelHostView.heightAnchor.constraintEqualToConstant(scrollView.frame.size.height).active = true
     
@@ -146,10 +146,10 @@ class DHSlideControl: UIControl {
     case .Ended:
       xOffsetAtStart = nil
       let widthOfLabel = floor(scrollView.contentSize.width/CGFloat(titles.count))
-      print(scrollView.contentOffset.x/widthOfLabel)
+//      print(scrollView.contentOffset.x/widthOfLabel)
       let offset = max(min(round(scrollView.contentOffset.x/widthOfLabel), CGFloat(titles.count-1)), 0.0)*widthOfLabel
       
-      scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
+//      scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: true)
 //      let xVelocity = sender.velocityInView(self).x
 //      
 //      print(offset-scrollView.contentOffset.x)
@@ -157,6 +157,13 @@ class DHSlideControl: UIControl {
 //      UIView.animateWithDuration(0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: xVelocity/30, options: [], animations: { () -> Void in
 //        self.scrollView.contentOffset.x = offset
 //        }, completion: nil)
+      
+      UIView.animateWithDuration(0.5, animations: { () -> Void in
+        self.scrollView.setContentOffset(CGPoint(x: offset, y: 0), animated: false)
+        }, completion: { (_) -> Void in
+          self.scrollViewDidEndDecelerating(self.scrollView)
+      })
+      
     default:
       break
     }
